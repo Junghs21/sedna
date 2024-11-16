@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:2.3.0
+FROM tensorflow/tensorflow:2.7.0
 
 RUN apt update \
   && apt install -y libgl1-mesa-glx git
@@ -17,7 +17,7 @@ RUN pip install tensorflow-datasets
 ENV PYTHONPATH "/home/lib:/home/plato"
 
 COPY ./lib /home/lib
-RUN git clone https://github.com/TL-System/plato.git /home/plato
+RUN git clone https://github.com/Junghs21/plato.git /home/plato
 RUN rm -rf /home/plato/.git
 
 RUN pip install -r /home/plato/requirements.txt
