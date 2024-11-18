@@ -14,7 +14,8 @@ RUN pip install tensorflow-datasets
 ENV PYTHONPATH "/home/lib:/home/plato"
 
 COPY ./lib /home/lib
-RUN git clone https://github.com/TL-System/plato.git /home/plato
+RUN git clone https://github.com/Junghs21/plato.git /home/plato
+RUN rm -rf /home/plato/.git
 
 RUN pip install -r /home/plato/requirements.txt
 
