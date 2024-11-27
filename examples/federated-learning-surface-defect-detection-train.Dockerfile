@@ -1,11 +1,7 @@
 FROM tensorflow/tensorflow:2.7.0
 
 RUN apt update \
-  && apt install -y libgl1-mesa-glx git curl \
-  && curl https://sh.rustup.rs -sSf | sh -s -- -y \
-  && source $HOME/.cargo/env
-
-ENV PATH="/root/.cargo/bin:${PATH}"
+  && apt install -y libgl1-mesa-glx git
 
 COPY ./lib/requirements.txt /home
 
@@ -27,6 +23,6 @@ RUN rm -rf /home/plato/.git
 RUN pip install -r /home/plato/requirements.txt
 
 WORKDIR /home/work
-COPY examples/federated_learning/surface_defect_detection_v2 /home/work/
+COPY examples/federated_learning/surface_defect_detection_v2  /home/work/
 
 ENTRYPOINT ["python", "train.py"]
