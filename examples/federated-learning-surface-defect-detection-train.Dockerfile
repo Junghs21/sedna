@@ -1,27 +1,32 @@
 FROM tensorflow/tensorflow:2.7.0
 
 RUN apt update \
-    && apt install -y libgl1-mesa-glx git curl \
-    && curl https://sh.rustup.rs -sSf | sh -s -- -y \
-    && source $HOME/.cargo/env
+  && apt install -y libgl1-mesa-glx git curl \
+  && curl https://sh.rustup.rs -sSf | sh -s -- -y \
+  && source $HOME/.cargo/env
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 COPY ./lib/requirements.txt /home
 
 RUN python -m pip install --upgrade pip
+
+COPY ./lib/requirements.txt /home
 RUN pip install -r /home/requirements.txt
 RUN pip install keras
+RUN pip install opencv-python
+RUN pip install Pillow
 RUN pip install tensorflow-datasets
 
 ENV PYTHONPATH "/home/lib:/home/plato"
 
 COPY ./lib /home/lib
-RUN git clone https://github.com/Jungsh21/plato.git /home/plato
+RUN git clone https://github.com/Junghs21/plato.git /home/plato
 RUN rm -rf /home/plato/.git
+
 RUN pip install -r /home/plato/requirements.txt
 
 WORKDIR /home/work
 COPY examples/federated_learning/surface_defect_detection_v2 /home/work/
 
-CMD ["/bin/sh", "-c", "ulimit -n 50000; python aggregate.py"]
+ENTRYPOINT ["python", "train.py"]
